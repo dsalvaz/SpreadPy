@@ -31,7 +31,7 @@ To install the package, download (or clone) the current project and copy the 'de
 Alternatively, you can use pip:
 
 ```bash
-pip install spreadpy
+pip install SpreadPy
 ```
 
 # Usage
