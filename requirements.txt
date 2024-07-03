@@ -6,5 +6,4 @@ matplotlib
 pandas
 nltk
 #conformity
->>>>>>> c071a4d (Initial commit)
 scipy
