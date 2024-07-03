@@ -1,9 +1,0 @@
-six
-numpy
-tqdm
-networkx
-matplotlib
-pandas
-nltk
-conformity
-scipy
