@@ -41,6 +41,10 @@ setup(name='SpreadPy',
           'Programming Language :: Python :: 3'
       ],
       keywords='',
+<<<<<<< HEAD
       install_requires=['six', 'numpy', 'tqdm', 'networkx', 'matplotlib', 'pandas', 'nltk', 'conformity', 'scipy'],
+=======
+      install_requires=['six', 'numpy', 'tqdm', 'networkx', 'matplotlib', 'pandas', 'nltk', 'scipy'],
+>>>>>>> c071a4d (Initial commit)
       packages=find_packages(exclude=["*.test", "*.test.*", "test.*", "test", "SpreadPy.test", "SpreadPy.test.*"]),
       )

@@ -1,17 +1,10 @@
 import networkx as nx
 import numpy as np
 import pandas as pd
-<<<<<<< HEAD
 import json
 from nltk.corpus import wordnet as wn
 
 from conformity import attribute_conformity
-=======
-#import json
-from nltk.corpus import wordnet as wn
-
-#from conformity import attribute_conformity
->>>>>>> c071a4d (Initial commit)
 
 from scipy.sparse.linalg import eigs
 
@@ -84,11 +77,7 @@ class AnalyticalUtils(object):
                 self.graph.nodes[n]['polysemy_bin'] = bins[i]
 
 
-<<<<<<< HEAD
     def word_features_pipeline(self, binned=False, conformity=[], additional_attributes=None):
-=======
-    def word_features_pipeline(self, binned=False, additional_attributes=None):
->>>>>>> c071a4d (Initial commit)
         """
         Perform a pipeline to add word features as attributes on nodes
         """
@@ -99,10 +88,6 @@ class AnalyticalUtils(object):
         if additional_attributes:
             self.___add_additional_attributes(additional_attributes)
 
-<<<<<<< HEAD
-=======
-        """
->>>>>>> c071a4d (Initial commit)
         if conformity != []:
             for file in conformity:
                 format_conformity = {}
@@ -118,7 +103,6 @@ class AnalyticalUtils(object):
 
                 for n in self.graph.nodes():
                     self.graph.nodes[n][attr_name+'_conformity'] = format_conformity[n]
-<<<<<<< HEAD
 
 
     def node_conformity(self, alphas=[1,2], attribute=['length_bin'], profile_size=1, savefile=''):
@@ -130,19 +114,6 @@ class AnalyticalUtils(object):
                 json.dump(node_to_conformity, outfile)
 
         return node_to_conformity
-=======
-    """
-
-    #def node_conformity(self, alphas=[1,2], attribute=['length_bin'], profile_size=1, savefile=''):
-
-    #    node_to_conformity = attribute_conformity(self.graph, alphas, attribute, profile_size=profile_size)
-
-    #    if savefile != '':
-    #        with open(savefile, 'w') as outfile:
-    #            json.dump(node_to_conformity, outfile)
-
-    #    return node_to_conformity
->>>>>>> c071a4d (Initial commit)
 
 
     def graph_for_layers(self, layer_names, multigraph=False):

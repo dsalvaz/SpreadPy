@@ -5,5 +5,9 @@ networkx
 matplotlib
 pandas
 nltk
+<<<<<<< HEAD
 conformity
+=======
+#conformity
+>>>>>>> c071a4d (Initial commit)
 scipy
