@@ -58,37 +58,66 @@ class SpreadingBaseModel(object):
         return system_status
 
 
-    def add_edge_strength(self, name_attr, eps=0.5):
+    def add_edge_strength(self, name_attr, eps=0.01, similarity=False):
         """
-        Calculate edge strength for specified node attributes.
+        Calculate directional edge strengths based on node attributes.
 
-        :param name_attrs: List of node attribute names as strings
-        :param eps: parameter value to guarantee not zero division
-        :return: a networkx graph object with weights on edges
+        :param name_attr: Name of the node attribute as a string
+        :param eps: Small parameter to prevent division by zero
+        :return: A dictionary of weights for directed edges
         """
 
-        weights = defaultdict(lambda: defaultdict(float))
-        #for na in name_attrs:
-        beta_nodes = {}
-        for u in self.graph.nodes():
-            a = self.graph.nodes[u][name_attr]
+        weights = defaultdict(lambda: defaultdict(float)) 
+    
+        if similarity == True:
 
-            neighbors = self.node_neighbors[u]
-            beta_i = 0
-            for v in neighbors:
+            beta_nodes = {}
+            # Step 1: Compute beta_i for each node
+            for u in self.graph.nodes():
+                a = self.graph.nodes[u][name_attr]
+                beta_i_sum = 0
+                for v in self.node_neighbors[u]:
+                    b = self.graph.nodes[v][name_attr]
+                    beta_i_sum += 1 / (abs(a - b) + eps)
+                beta_nodes[u] = 1 / beta_i_sum  # Normalization factor for node u
+
+            # Step 2: Compute directional weights for edges
+            for u, v in self.graph.edges():
+                a = self.graph.nodes[u][name_attr]
                 b = self.graph.nodes[v][name_attr]
-                beta_i += 1 / (abs(a-b)+eps)
-            beta_nodes[u] = beta_i**-1
 
-        for u, v in self.graph.edges():
-            a = self.graph.nodes[u][name_attr]
-            b = self.graph.nodes[v][name_attr]
+                # Directional weights calculation
+                weight_uv = beta_nodes[u] / (abs(a - b) + eps)  # Energy flowing from u to v
+                weight_vu = beta_nodes[v] / (abs(b - a) + eps)  # Energy flowing from v to u
 
-            weight_u = beta_nodes[u] / (abs(a-b)+eps)
-            weight_v = beta_nodes[v] / (abs(a-b)+eps)
+                # Assign weights to directed edges
+                weights[name_attr][(u, v)] = weight_uv
+                weights[name_attr][(v, u)] = weight_vu
+ 
+        else: # CREATIVITY FOR DISSIMILARITY
 
-            weights[name_attr][(u, v)] = weight_u
-            weights[name_attr][(v, u)] = weight_v
+            beta_nodes = {}
+            for u in self.graph.nodes():
+                a = self.graph.nodes[u][name_attr]
+                beta_i_sum = 0
+                for v in self.node_neighbors[u]:
+                    b = self.graph.nodes[v][name_attr]
+                    # Invertire la logica per enfatizzare differenze
+                    beta_i_sum += abs(a - b) + eps
+                beta_nodes[u] = 1 / beta_i_sum  # Normalizzazione per il nodo u
+
+            # Step 2: Compute directional weights for edges
+            for u, v in self.graph.edges():
+                a = self.graph.nodes[u][name_attr]
+                b = self.graph.nodes[v][name_attr]
+
+                # Modifica: flussi favoriscono caratteristiche dissimili
+                weight_uv = beta_nodes[u] * (abs(a - b) + eps)  # Energia da u a v
+                weight_vu = beta_nodes[v] * (abs(b - a) + eps)  # Energia da v a u
+
+                # Assegna i pesi agli archi diretti
+                weights[name_attr][(u, v)] = weight_uv
+                weights[name_attr][(v, u)] = weight_vu
 
         return weights
 
