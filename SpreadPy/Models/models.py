@@ -12,7 +12,7 @@ class BaseSpreading(SpreadingBaseModel):
     Class that defines a Base Spreading Model
     """
 
-    def __init__(self, graph, retention, decay, suppress, weighted=False, weight='weight'):
+    def __init__(self, graph, retention, decay, suppress, weighted=False, weight='weight', similarity=False):
         """
         Model Constructor
         """
@@ -20,8 +20,9 @@ class BaseSpreading(SpreadingBaseModel):
         super(self.__class__, self).__init__(graph, retention, decay, suppress)
         self.weighted = weighted
         self.weight = weight
+        self.similarity = similarity
         if weighted:
-            self.weights = self.add_edge_strength(weight)
+            self.weights = self.add_edge_strength(weight, similarity=similarity)
 
 
     def ___spread_uniform(self, u, neighbors, status):
@@ -290,6 +291,7 @@ class MultiplexSpreading(SpreadingBaseModel):
             "status": activation.copy(),
             }
 
+    # TODO: EXTEND TO MULTILAYER
     def add_edge_strength(self, name_attr, layer, eps=0.001):
         """
         Calculate edge strength for specified node attributes.
