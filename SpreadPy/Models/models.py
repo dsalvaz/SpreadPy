@@ -116,7 +116,7 @@ class MultiplexSpreading(SpreadingBaseModel):
     Class that defines a Multiplex Spreading Model
     """
 
-    def __init__(self, graph, retention, decay, suppress, intra_layer_prob, inter_layer_prob, # r
+    def __init__(self, graph, retention, decay, suppress, r,
                  weighted=False, weight='weight'):
         """
         Model Constructor
@@ -143,13 +143,13 @@ class MultiplexSpreading(SpreadingBaseModel):
 
         self.status = {layer: {node: 0 for node in self.graph.nodes} for layer in self.layers}
 
-        #self.r = r
-        #total_r = 1 + r
-        #self.intra_layer_prob = 1 / total_r
-        #self.inter_layer_prob = r / total_r
+        self.r = r
+        total_r = 1 + r
+        self.intra_layer_prob = 1 / total_r
+        self.inter_layer_prob = r / total_r
 
-        self.intra_layer_prob = intra_layer_prob
-        self.inter_layer_prob = inter_layer_prob
+        #self.intra_layer_prob = intra_layer_prob
+        #self.inter_layer_prob = inter_layer_prob
 
 
 
