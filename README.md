@@ -1,4 +1,4 @@
-# SpreadPy: Semantic Processing Simulation in Python
+# SpreadPy: Spreading Activation in Python
 
 ``SpreadPy`` is a python package that simulates human semantic processing as *spreading activation* models on complex lexical networks. The package supports various network representations such as *node-enriched* and *multi-layer* networks.
 
